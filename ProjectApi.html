@@ -1,71 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>US Business News</title>
+    <title>News Letter</title>
     <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <h1>US Business News</h1>
 
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Search articles...">
+<div id="news_overlay" class="overlay">
+    <div class="overlay_content">
+        <img id="overlay_image" src="" alt="News Image" style="width:100%; border-radius:8px; margin-bottom:15px;">
+        <h2 id="overlay_title"></h2>
+        <p>Author:<span id="overlay_author"></span></p>
+        <p>Source:<span id="overlay_src"></span></p>
+        <p>Published:<span id="overlay_date"></span></p>
+        <p id="overlay_desc"></p>
+        <a id="overlay_link" href="#" target="_blank" class="read_more">Go to Source</a>
     </div>
+</div>
 
-    <div class="news-container" id="news-container"></div>
 
-    <script>
-        let allArticles = [];
+<body>
+    <div class="fixed_div">
+    <nav>
+        <div class="title">News Letter</div>
+        <div class="controls">
+            <input type="text" id="search_input" placeholder="Search News">
+            <select id="sort_news">
+                <option value="">sort</option>
+                <option value="title_asc">title asc</option>
+                <option value="title_desc">title desc</option>
+                <option value="date_newest">date asc</option>
+                <option value="date_oldest">date desc</option>
+                <option value="source_asc">src asc</option>
+                <option value="source_desc">src desc</option>
+            </select>
+        </div>
+    </nav>
+</div>
 
-        async function fetchNews() {
-            try {
-                const apiKey = 'cd6262fd680d4dc59244db1cf7c2445b';
-                const url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${apiKey}`;
-                const response = await fetch(url);
-                const data = await response.json();
+    <section id="main_news_image">
+        <div class="main_news_overlay">
+            <h1 id="main_news_title"></h1>
+            <p id="main_news_desc"></p>
+        </div>
+    </section>
 
-                allArticles = data.articles.slice(0, 20); // store all articles
-                displayArticles(allArticles);
-            } catch (error) {
-                console.error('Error fetching news:', error);
-                document.body.innerHTML = "<p>Error loading news data. Please try again later.</p>";
-            }
-        }
+    <main id="news_container"></main>
 
-        function displayArticles(articles) {
-            const container = document.getElementById('news-container');
-            container.innerHTML = '';
+    <footer>
+        <p>News Letter Project for XML</p>
+    </footer>
 
-            if (articles.length === 0) {
-                container.innerHTML = "<p>No matching articles found.</p>";
-                return;
-            }
-
-            articles.forEach(article => {
-                const newsDiv = document.createElement('div');
-                newsDiv.classList.add('news-card');
-
-                newsDiv.innerHTML = `
-                    <a href="${article.url}" target="_blank">
-                        <img src="${article.urlToImage || 'https://via.placeholder.com/250x150'}" alt="News Image">
-                        <h3>${article.title || 'No title available'}</h3>
-                    </a>
-                `;
-
-                container.appendChild(newsDiv);
-            });
-        }
-
-        document.getElementById('search-input').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const filteredArticles = allArticles.filter(article =>
-                article.title && article.title.toLowerCase().includes(query)
-            );
-            displayArticles(filteredArticles);
-        });
-
-        fetchNews();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
