@@ -17,12 +17,12 @@ async function fetchNews()
             document.getElementById('main_news_desc').textContent = firstArticle.description || 'news description';
         }
 
-        displayArticles(allArticles.slice(1)); 
+        displayNews(allArticles.slice(1)); 
 }
 
 
 
-function displayArticles(articles) 
+function displayNews(articles) 
 {
     const container = document.getElementById('news_container');
     container.innerHTML = '';
@@ -120,7 +120,7 @@ document.getElementById('sort_news').addEventListener('change', function ()
             sortedList = arrangeBySource(sortedList, 'desc');
             break;
     }
-    displayArticles(sortedList);
+    displayNews(sortedList);
 });
 
 
@@ -133,7 +133,7 @@ document.getElementById('search_input').addEventListener('input', function ()
     const filteredArticles = allArticles.slice(1).filter(article =>
         article.title && article.title.toLowerCase().includes(query)
     );
-    displayArticles(filteredArticles);
+    displayNews(filteredArticles);
 });
 
 fetchNews();
