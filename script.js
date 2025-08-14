@@ -7,7 +7,7 @@ async function fetchNews()
         const response = await fetch(url);
         const data = await response.json();
 
-        allArticles = data.articles.slice(0, 15);
+        allArticles = data.articles.slice(0, 30);
         
 
         if (allArticles.length > 0) {
@@ -69,7 +69,7 @@ document.getElementById('news_overlay').addEventListener('click', (e) => {
 
 
 
-function arrangeByHeading(list, direction = 'asc') {
+function sortByHeading(list, direction = 'asc') {
     return [...list].sort((x, y) => {
         const first = x.title?.toLowerCase() || '';
         const second = y.title?.toLowerCase() || '';
@@ -77,7 +77,7 @@ function arrangeByHeading(list, direction = 'asc') {
     });
 }
 
-function arrangeByDate(list, mode = 'newest') {
+function sortByDate(list, mode = 'newest') {
     return [...list].sort((x, y) => {
         const first = new Date(x.publishedAt);
         const second = new Date(y.publishedAt);
@@ -85,7 +85,7 @@ function arrangeByDate(list, mode = 'newest') {
     });
 }
 
-function arrangeBySource(list, direction = 'asc') {
+function sortBySource(list, direction = 'asc') {
     return [...list].sort((x, y) => {
         const first = x.source?.name?.toLowerCase() || '';
         const second = y.source?.name?.toLowerCase() || '';
@@ -102,22 +102,22 @@ document.getElementById('sort_news').addEventListener('change', function ()
     let sortedList = [...allArticles].slice(1);
     switch (this.value) {
         case 'title_asc':
-            sortedList = arrangeByHeading(sortedList, 'asc');
+            sortedList = sortByHeading(sortedList, 'asc');
             break;
         case 'title_desc':
-            sortedList = arrangeByHeading(sortedList, 'desc');
+            sortedList = sortByHeading(sortedList, 'desc');
             break;
         case 'date_newest':
-            sortedList = arrangeByDate(sortedList, 'newest');
+            sortedList = sortByDate(sortedList, 'newest');
             break;
         case 'date_oldest':
-            sortedList = arrangeByDate(sortedList, 'oldest');
+            sortedList = sortByDate(sortedList, 'oldest');
             break;
         case 'source_asc':
-            sortedList = arrangeBySource(sortedList, 'asc');
+            sortedList = sortBySource(sortedList, 'asc');
             break;
         case 'source_desc':
-            sortedList = arrangeBySource(sortedList, 'desc');
+            sortedList = sortBySource(sortedList, 'desc');
             break;
     }
     displayNews(sortedList);
